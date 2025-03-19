@@ -37,7 +37,7 @@ void process_makefile(const char *filename, int verbose) {
 
     FILE *output_file = NULL;
     if (verbose) {
-        output_file = fopen("Minimake.mk", "w");
+        output_file = fopen("minimake", "w");
         if (output_file == NULL) {
             perror("错误: 无法创建输出文件");
             fclose(file);
@@ -69,7 +69,7 @@ void process_makefile(const char *filename, int verbose) {
     fclose(file);
     if (verbose) {
         fclose(output_file);
-        printf("清理后的内容已保存到 Minimake.mk\n");
+        printf("清理后的内容已保存到 minimake\n");
     }
 }
 
@@ -80,16 +80,27 @@ int main(int argc, char *argv[]) {
         verbose = 1;
     }
 
-    // 检查 Makefile 是否存在
-    FILE *file = fopen("Makefile", "r");
+    // 检查 Makefile 是否存在（支持大小写不敏感）
+    const char *filenames[] = {"Makefile", "makefile"};
+    FILE *file = NULL;
+    const char *filename = NULL;
+
+    for (int i = 0; i < 2; i++) {
+        file = fopen(filenames[i], "r");
+        if (file) {
+            filename = filenames[i];
+            break;
+        }
+    }
+
     if (file == NULL) {
-        perror("错误: Makefile 不存在");
+        perror("错误: Makefile 或 makefile 不存在");
         return EXIT_FAILURE;
     }
     fclose(file);
 
     // 处理 Makefile
-    process_makefile("Makefile", verbose);
+    process_makefile(filename, verbose);
 
     return 0;
 }

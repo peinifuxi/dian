@@ -1,0 +1,15 @@
+export PS1="$ "
+target : program.c cleanmk.c
+	gcc program.c cleanmk.c -o target
+program : program.c
+	gcc program.c -o program
+cleanmk : cleanmk.c
+	gcc cleanmk.c -o cleanmk
+check : check.c
+	gcc check.c -o check
+relation : relation.c
+	gcc relation.c -o relation
+order : order.c
+	gcc order.c -o order
+clean :
+	rm -f *.o program cleanmk

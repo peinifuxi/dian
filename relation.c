@@ -126,8 +126,8 @@ int main() {
     Graph graph;
     graph.vertex_count = 0;
 
-    // 解析 Makefile 并构建依赖关系图
-    parse_makefile(&graph, "Makefile");
+    // 解析 Minimake 并构建依赖关系图
+    parse_makefile(&graph, "minimake");
 
     // 打印依赖关系图
     print_graph(&graph);
