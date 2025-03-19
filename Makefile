@@ -1,10 +1,16 @@
 export PS1="$ "
 
 
-all: progrom cleanmk
+all: program cleanmk check
 
-progrom : progrom.c
-	gcc progrom.c -o progrom
+program : program.c
+	gcc program.c -o program 
 
 cleanmk : cleanmk.c
 	gcc cleanmk.c -o cleanmk
+
+check : check.c
+	gcc check.c -o check
+
+clean :
+	rm -f *.o program cleanmk
