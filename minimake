@@ -11,5 +11,7 @@ relation : relation.c
 	gcc relation.c -o relation
 order : order.c
 	gcc order.c -o order
+timestamp : timestamp.c
+	gcc timestamp.c -o timestamp
 clean :
 	rm -f *.o program cleanmk

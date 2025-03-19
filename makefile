@@ -18,6 +18,8 @@ relation : relation.c             #生成图关系
 
 order : order.c             #生成拓扑排序
 	gcc order.c -o order
+timestamp : timestamp.c             #生成拓扑排序
+	gcc timestamp.c -o timestamp
 
 clean :                      #处理生成文件
 	rm -f *.o program cleanmk

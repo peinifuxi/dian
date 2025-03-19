@@ -43,14 +43,14 @@ void add_dependency(const char *target_name, const char *dep_name) {
     int dep_idx = find_target_index(dep_name);
 
     if (target_idx == -1 || dep_idx == -1) {
-        fprintf(stderr, "Error: Target or dependency not found\n");
-        exit(1);
+        fprintf(stderr, "Warning: Target or dependency not found: %s -> %s\n", target_name, dep_name);
+        return;
     }
 
     // 添加依赖
     strcpy(targets[target_idx].deps[targets[target_idx].num_deps], dep_name);
     targets[target_idx].num_deps++;
-    targets[target_idx].in_degree++;
+    targets[dep_idx].in_degree++; // 修正：增加依赖的入度
 }
 
 // 解析 minimake 文件
@@ -125,7 +125,7 @@ void topological_sort(const char *start_target) {
 
     // 输出构建顺序
     printf("Build order: ");
-    for (int i = order_size - 1; i >= 0; i--) {
+    for (int i = 0; i < order_size; i++) { // 修正：从开头开始输出
         printf("%s ", targets[order[i]].name);
     }
     printf("\n");
