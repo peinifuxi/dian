@@ -1,8 +1,5 @@
-export PS1="$ "
-hello : main.c message.c
-	gcc main.c message.c -o hello
-program : program.c
-	gcc program.c -o program
+minimake : minimake.c check.c cleanmk.c relation.c
+	gcc minimake.c check.c cleanmk.c relation.c -o minimake
 cleanmk : cleanmk.c
 	gcc cleanmk.c -o cleanmk
 check : check.c
@@ -15,3 +12,5 @@ timestamp : timestamp.c
 	gcc timestamp.c -o timestamp
 clean :
 	rm -f *.o program cleanmk
+hello : test.c message.c
+	gcc test.c message.c -o hello

@@ -86,7 +86,7 @@ void print_graph(Graph *graph) {
 void parse_makefile(Graph *graph, const char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("Error: Unable to open Makefile");
+        perror("Error: Unable to open cleanmk");
         return;
     }
 
@@ -121,18 +121,3 @@ void parse_makefile(Graph *graph, const char *filename) {
     fclose(file);
 }
 
-int main() {
-    // 初始化图
-    Graph graph;
-    graph.vertex_count = 0;
-
-    // 解析 Minimake 并构建依赖关系图
-    parse_makefile(&graph, "minimake");
-
-    // 打印依赖关系图
-    print_graph(&graph);
-
-    // 释放内存（略）
-
-    return 0;
-}

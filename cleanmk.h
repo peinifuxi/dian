@@ -1,3 +1,3 @@
 
 
-int cleanmk(int argc, char *argv[]) ;
+void process_makefile();

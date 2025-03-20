@@ -1,10 +1,10 @@
-export PS1="$ "
+##export PS1="$ "
 
 
 
 
-program : program.c         #获取用户输入
-	gcc program.c -o program 
+minimake : minimake.c check.c cleanmk.c relation.c order.c      #获取用户输入
+	gcc minimake.c check.c cleanmk.c relation.c order.c -o minimake 
 
 cleanmk : cleanmk.c         #简化makefile
 	gcc cleanmk.c -o cleanmk
@@ -22,3 +22,7 @@ timestamp : timestamp.c             #生成拓扑排序
 
 clean :                      #处理生成文件
 	rm -f *.o program cleanmk
+
+
+hello : test.c message.c 
+	gcc test.c message.c -o hello

@@ -115,7 +115,7 @@ void parse_rule(const char *line, int line_number) {
 void check(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("Error: Unable to open minimake file");
+        perror("Error: Unable to open makefile file");
         check_passed = 0;
         return;
     }
@@ -138,16 +138,4 @@ void check(const char *filename) {
     }
 
     fclose(file);
-}
-
-int main() {
-    // 检查 minimake 文件
-    check("minimake");
-
-    // 输出检查结果
-    if (check_passed) {
-        printf("check pass\n");
-    }
-
-    return 0;
 }

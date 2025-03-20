@@ -50,7 +50,7 @@ void add_dependency(const char *target_name, const char *dep_name) {
     // 添加依赖
     strcpy(targets[target_idx].deps[targets[target_idx].num_deps], dep_name);
     targets[target_idx].num_deps++;
-    targets[dep_idx].in_degree++; // 修正：增加依赖的入度
+    targets[dep_idx].in_degree++; // 增加依赖的入度
 }
 
 // 解析 minimake 文件
@@ -125,26 +125,8 @@ void topological_sort(const char *start_target) {
 
     // 输出构建顺序
     printf("Build order: ");
-    for (int i = 0; i < order_size; i++) { // 修正：从开头开始输出
+    for (int i = 0; i < order_size; i++) {
         printf("%s ", targets[order[i]].name);
     }
     printf("\n");
-}
-
-int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <minimake> <target>\n", argv[0]);
-        return 1;
-    }
-
-    const char *minimake = argv[1];
-    const char *target = argv[2];
-
-    // 解析 minimake 文件
-    parse_minimake(minimake);
-
-    // 拓扑排序并输出构建顺序
-    topological_sort(target);
-
-    return 0;
 }
