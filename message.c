@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "message.h"
 
 
-int main(){
-    message();
+void message(){
+    printf("陪你复习");
     
-    return 0;
 } 

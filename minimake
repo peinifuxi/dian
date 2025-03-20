@@ -1,17 +1,14 @@
-export PS1="$ "
-target : program.c cleanmk.c
-	gcc program.c cleanmk.c -o target
-program : program.c
-	gcc program.c -o program
-cleanmk : cleanmk.c
-	gcc cleanmk.c -o cleanmk
-check : check.c
-	gcc check.c -o check
-relation : relation.c
-	gcc relation.c -o relation
-order : order.c
-	gcc order.c -o order
-timestamp : timestamp.c
-	gcc timestamp.c -o timestamp
-clean :
-	rm -f *.o program cleanmk
+# minimake
+all: hello
+
+hello: main.o message.o
+	gcc main.o message.o -o hello
+
+main.o: main.c
+	gcc -c main.c -o main.o
+
+message.o: message.c
+	gcc -c message.c -o message.o
+
+clean:
+	rm -f *.o hello

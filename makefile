@@ -1,8 +1,7 @@
 export PS1="$ "
 
 
-target : program.c cleanmk.c
-	gcc program.c cleanmk.c -o target
+
 
 program : program.c         #获取用户输入
 	gcc program.c -o program 
@@ -10,7 +9,7 @@ program : program.c         #获取用户输入
 cleanmk : cleanmk.c         #简化makefile
 	gcc cleanmk.c -o cleanmk
 
-check : check.c             #makefile语法简称
+check : check.c             #makefile语法检查
 	gcc check.c -o check
 
 relation : relation.c             #生成图关系

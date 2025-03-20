@@ -37,7 +37,7 @@ void process_makefile(const char *filename, int verbose) {
 
     FILE *output_file = NULL;
     if (verbose) {
-        output_file = fopen("minimake", "w");
+        output_file = fopen("Minimake_claered.mk", "w");
         if (output_file == NULL) {
             perror("错误: 无法创建输出文件");
             fclose(file);
@@ -69,7 +69,7 @@ void process_makefile(const char *filename, int verbose) {
     fclose(file);
     if (verbose) {
         fclose(output_file);
-        printf("清理后的内容已保存到 minimake\n");
+        printf("清理后的内容已保存到 Minimake_claered.mk \n");
     }
 }
 

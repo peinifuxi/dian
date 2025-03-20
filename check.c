@@ -20,6 +20,9 @@ typedef struct Rule {
 Rule rules[MAX_TARGETS];
 int rule_count = 0;
 
+// 全局变量：记录检查是否通过
+int check_passed = 1;
+
 // 检查文件是否存在
 int file_exists(const char *filename) {
     FILE *file = fopen(filename, "r");
@@ -56,7 +59,8 @@ int is_dependency_valid(const char *dependency) {
 // 解析一行规则
 void parse_rule(const char *line, int line_number) {
     char line_copy[MAX_LINE_LENGTH];
-    strcpy(line_copy, line);
+    strncpy(line_copy, line, MAX_LINE_LENGTH - 1);
+    line_copy[MAX_LINE_LENGTH - 1] = '\0';
 
     // 检查是否是目标行
     char *colon = strchr(line_copy, ':');
@@ -65,42 +69,54 @@ void parse_rule(const char *line, int line_number) {
         *colon = '\0';
         char *target = strtok(line_copy, " ");
         if (is_target_defined(target)) {
-            printf("Line%d: Duplicate target definition '%s'\n", line_number, target);
+            printf("Line %d: Duplicate target definition '%s'\n", line_number, target);
+            check_passed = 0;
             return;
         }
 
         // 存储目标
-        strcpy(rules[rule_count].target, target);
+        strncpy(rules[rule_count].target, target, MAX_FILENAME_LENGTH - 1);
+        rules[rule_count].target[MAX_FILENAME_LENGTH - 1] = '\0';
+        rules[rule_count].dependency_count = 0;
 
         // 解析依赖
-        char *dependency = strtok(NULL, " ");
+        char *dependency = strtok(colon + 1, " ");
         while (dependency) {
             if (!is_dependency_valid(dependency)) {
-                printf("Line%d: Invalid dependency '%s'\n", line_number, dependency);
-                return;
+                printf("Line %d: Invalid dependency '%s'\n", line_number, dependency);
+                check_passed = 0;
             }
-            strcpy(rules[rule_count].dependencies[rules[rule_count].dependency_count++], dependency);
+            strncpy(rules[rule_count].dependencies[rules[rule_count].dependency_count], dependency, MAX_FILENAME_LENGTH - 1);
+            rules[rule_count].dependencies[rules[rule_count].dependency_count][MAX_FILENAME_LENGTH - 1] = '\0';
+            rules[rule_count].dependency_count++;
             dependency = strtok(NULL, " ");
         }
+
+        rule_count++;
     } else {
         // 检查是否是命令行
         if (line_copy[0] == '\t') {
             // 存储命令
-            strcpy(rules[rule_count].command, line_copy + 1);
+            if (rule_count == 0) {
+                printf("Line %d: Command without a target\n", line_number);
+                check_passed = 0;
+                return;
+            }
+            strncpy(rules[rule_count - 1].command, line_copy + 1, MAX_LINE_LENGTH - 1);
+            rules[rule_count - 1].command[MAX_LINE_LENGTH - 1] = '\0';
         } else {
-            printf("Line%d: Missing colon in target definition\n", line_number);
-            return;
+            printf("Line %d: Missing colon in target definition\n", line_number);
+            check_passed = 0;
         }
     }
-
-    rule_count++;
 }
 
-// 检查 Makefile 文件
+// 检查 minimake 文件
 void check(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) {
-        perror("Error: Unable to open Makefile");
+        perror("Error: Unable to open minimake file");
+        check_passed = 0;
         return;
     }
 
@@ -125,8 +141,13 @@ void check(const char *filename) {
 }
 
 int main() {
-    // 检查 Makefile
-    check("Makefile");
+    // 检查 minimake 文件
+    check("minimake");
+
+    // 输出检查结果
+    if (check_passed) {
+        printf("check pass\n");
+    }
 
     return 0;
 }
