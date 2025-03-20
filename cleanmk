@@ -8,7 +8,7 @@ relation : relation.c
 	gcc relation.c -o relation
 timestamp : timestamp.c
 	gcc timestamp.c -o timestamp
-clean :
-	rm -f *.o program cleanmk
+clean:
+	rm -f *.o minimake cleanmk check relation timestamp hello
 hello : test.c message.c
 	gcc test.c message.c -o hello

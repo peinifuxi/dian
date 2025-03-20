@@ -6,7 +6,6 @@
 #define MAX_NAME_LENGTH 100
 #define MAX_DEPENDENCIES 10
 #define MAX_LINE_LENGTH 256
-#define MAX_TARGETS 100
 
 // 顶点结构
 typedef struct Vertex {
@@ -18,7 +17,7 @@ typedef struct Vertex {
 
 // 图结构
 typedef struct Graph {
-    Vertex *vertices[MAX_TARGETS];       // 顶点数组
+    Vertex *vertices[100];       // 顶点数组
     int vertex_count;            // 顶点数量
 } Graph;
 
@@ -122,50 +121,3 @@ void parse_makefile(Graph *graph, const char *filename) {
     fclose(file);
 }
 
-// 拓扑排序
-void topological_sort(Graph *graph, const char *start_target) {
-    Vertex *start_vertex = find_vertex(graph, start_target);
-    if (start_vertex == 0) {
-        fprintf(stderr, "Errr: Target '%s' not found\n", start_target);
-        exit(1);
-    }
-
-    Vertex *queue[MAX_TARGETS];
-    int front = 0, rear = 0;
-    Vertex *order[MAX_TARGETS];
-    int order_size = 0;
-
-    // 初始化队列
-    for (int i = 0; i < graph->vertex_count; i++) {
-        if (graph->vertices[i]->in_degree == 0) {
-            queue[rear++] = graph->vertices[i];
-        }
-    }
-
-    // 拓扑排序
-    while (front < rear) {
-        Vertex *current = queue[front++];
-        order[order_size++] = current;
-
-        for (int i = 0; i < current->dependency_count; i++) {
-            Vertex *dependency = current->dependencies[i];
-            dependency->in_degree--;
-            if (dependency->in_degree == 0) {
-                queue[rear++] = dependency;
-            }
-        }
-    }
-
-    // 检查循环依赖
-    if (order_size != graph->vertex_count) {
-        fprintf(stderr, "Error: Circular dependency detected\n");
-        exit(1);
-    }
-
-    // 输出构建顺序
-    printf("Build order: ");
-    for (int i = 0; i < order_size; i++) {
-        printf("%s ", order[i]->name);
-    }
-    printf("\n");
-}

@@ -7,6 +7,7 @@
 #include "cleanmk.h"
 #include "relation.h" 
 #include "timestamp.h"
+#include "order.h"
 
 // 帮助信息
 void print_help() {
@@ -63,21 +64,10 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "错误: --order 选项需要指定目标名称\n");
                 return 1;
             }
-
-            // 获取目标名称
-            const char *target = argv[i + 1];
             i++; // 跳过目标名称参数
-
+             char *target = argv[i];
             
-
-            // 检查目标是否存在
-           if (find_vertex(&graph, target) == NULL) {
-           fprintf(stderr, "错误: 目标的 '%s' 不存在\n", target);
-           return 1;
-           }
-
-            // 进行拓扑排序
-            topological_sort(&graph, target);
+            topological_sort(target);
         } 
         //尝试进行可执行文件
         else {
@@ -86,8 +76,7 @@ int main(int argc, char *argv[]) {
             char command[256];
             snprintf(command, sizeof(command), "make %s", argv[i]);
         
-            // 检查目标是否需要重新构建
-            if (needs_rebuild(argv[i])) {
+           
                 // 调用 make 命令
                 int result = system(command);
                 if (result == -1) {
@@ -99,9 +88,7 @@ int main(int argc, char *argv[]) {
                 }
         
                 printf("目标 '%s' 执行成功\n", argv[i]);
-            } else {
-                printf("目标 '%s' 是最新的，无需重新构建\n", argv[i]);
-            }
+            
         }
     }
 
