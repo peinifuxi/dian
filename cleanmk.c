@@ -73,7 +73,7 @@ void process_makefile(const char *filename, int verbose) {
     }
 }
 
-int main(int argc, char *argv[]) {
+int cleanmk(int argc, char *argv[]) {
     // 检查命令行参数
     int verbose = 0;
     if (argc == 2 && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)) {

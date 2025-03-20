@@ -17,7 +17,7 @@ void print_version() {
 int main(int argc, char *argv[]) {
     // 如果没有提供任何参数
     if (argc == 1) {
-        printf("错误: 未提供参数。使用 --help 查看帮助信息。\n");
+        printf("若需其他功能请使用 --help 查看帮助信息。\n");
         return 1;
     }
 
@@ -29,6 +29,15 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[i], "--version") == 0) {
             print_version();
             return 0;
+        } else if (strcmp(argv[i], "--relation") == 0) {
+            print_version();
+            return 0;
+        } else if (strcmp(argv[i], "--order") == 0) {
+            print_version();
+            return 0;
+        } else if (strcmp(argv[i], "--cleanmk") == 0) {
+            print_version();
+            return 0;           
         } else {
             // 如果参数不是 --help 或 --version，则认为是错误参数
             printf("错误: 未知参数 '%s'\n", argv[i]);
