@@ -1,13 +1,11 @@
-minimake : minimake.c check.c cleanmk.c relation.c
-	gcc minimake.c check.c cleanmk.c relation.c -o minimake
+minimake : minimake.c check.c cleanmk.c relation.c timestamp.c
+	gcc minimake.c check.c cleanmk.c relation.c timestamp.c  -o minimake
 cleanmk : cleanmk.c
 	gcc cleanmk.c -o cleanmk
 check : check.c
 	gcc check.c -o check
 relation : relation.c
 	gcc relation.c -o relation
-order : order.c
-	gcc order.c -o order
 timestamp : timestamp.c
 	gcc timestamp.c -o timestamp
 clean :

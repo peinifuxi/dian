@@ -73,3 +73,4 @@ int needs_rebuild(const char *target_name) {
     // 目标文件是最新的，不需要重新构建
     return 0;
 }
+
