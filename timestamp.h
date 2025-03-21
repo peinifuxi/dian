@@ -8,8 +8,8 @@
 #include <time.h>
 
 // 常量定义
-#define MAX_TARGETS 100
-#define MAX_NAME_LENGTH 100
+#define MAX_TARGETS 50
+#define MAX_NAME_LENGTH 50
 
 // 目标结构体
 typedef struct {
@@ -18,6 +18,11 @@ typedef struct {
     int num_deps;                // 依赖数量
     char deps[MAX_TARGETS][MAX_NAME_LENGTH];  // 依赖列表
 } Target;
+typedef struct {
+    Graph* graph;                // 依赖图
+    const char* target_name;     // 目标名称
+    time_t target_mtime;         // 目标文件的修改时间
+} RebuildContext;
 
 // 全局变量声明
 extern Target targets[MAX_TARGETS];
@@ -44,7 +49,7 @@ time_t get_file_mtime(const char *filename);
  * @param target_name 目标名称
  * @return 1 需要重新构建，0 不需要重新构建
  */
-int needs_rebuild(const char *target_name);
+int needs_rebuild(RebuildContext* context);
 
 /**
  * 主函数

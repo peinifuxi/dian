@@ -5,5 +5,6 @@
 
 void message(){
     printf("陪你复习");
+    //hello
     
 } 

@@ -1,5 +1,5 @@
-minimake : minimake.c check.c cleanmk.c relation.c timestamp.c
-	gcc minimake.c check.c cleanmk.c relation.c timestamp.c  -o minimake
+minimake: minimake.c check.c cleanmk.c relation.c timestamp.c execute.c
+	gcc minimake.c check.c cleanmk.c relation.c timestamp.c execute.c   -o minimake
 cleanmk : cleanmk.c
 	gcc cleanmk.c -o cleanmk
 check : check.c
@@ -10,5 +10,7 @@ timestamp : timestamp.c
 	gcc timestamp.c -o timestamp
 clean:
 	rm -f *.o minimake cleanmk check relation timestamp hello
-hello : test.c message.c
+hello: test.c message.c
 	gcc test.c message.c -o hello
+app: test.c
+	gcc -Wall -O2 -o app test.c

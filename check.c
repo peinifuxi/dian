@@ -69,7 +69,8 @@ void parse_rule(const char *line, int line_number) {
         *colon = '\0';
         char *target = strtok(line_copy, " ");
         if (is_target_defined(target)) {
-            printf("Line %d: Duplicate target definition '%s'\n", line_number, target);
+            
+            fprintf(stderr, "Line%d: Duplicate target definition '%s'\n", line_number, target);
             check_passed = 0;
             return;
         }
@@ -83,7 +84,8 @@ void parse_rule(const char *line, int line_number) {
         char *dependency = strtok(colon + 1, " ");
         while (dependency) {
             if (!is_dependency_valid(dependency)) {
-                printf("Line %d: Invalid dependency '%s'\n", line_number, dependency);
+                
+                fprintf(stderr, "Line%d: Invalid dependency '%s'\n", line_number, dependency);
                 check_passed = 0;
             }
             strncpy(rules[rule_count].dependencies[rules[rule_count].dependency_count], dependency, MAX_FILENAME_LENGTH - 1);
@@ -98,14 +100,17 @@ void parse_rule(const char *line, int line_number) {
         if (line_copy[0] == '\t') {
             // 存储命令
             if (rule_count == 0) {
-                printf("Line %d: Command without a target\n", line_number);
+                fprintf(stderr, "Line%d: Command found before rule\n", line_number);
+                
                 check_passed = 0;
                 return;
             }
             strncpy(rules[rule_count - 1].command, line_copy + 1, MAX_LINE_LENGTH - 1);
             rules[rule_count - 1].command[MAX_LINE_LENGTH - 1] = '\0';
         } else {
-            printf("Line %d: Missing colon in target definition\n", line_number);
+           
+            fprintf(stderr, "Line%d: Missing colon in target definition\n", line_number);
+        
             check_passed = 0;
         }
     }
@@ -117,7 +122,7 @@ void check(const char *filename) {
     if (!file) {
         perror("Error: Unable to open makefile file");
         check_passed = 0;
-        return;
+        exit(1);
     }
 
     char line[MAX_LINE_LENGTH];
